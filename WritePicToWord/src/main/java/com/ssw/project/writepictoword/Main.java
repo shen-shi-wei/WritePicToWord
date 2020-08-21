@@ -1,7 +1,6 @@
 package com.ssw.project.writepictoword;
 
 import com.google.common.collect.Maps;
-import com.ssw.project.writepictoword.utils.WordUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.io.IOException;
@@ -45,6 +44,13 @@ public class Main {
         list.add("D:\\tp\\pie.png");
         list.add("D:\\tp\\pie.png");
         pics.put("${pics}",list);
-        WordUtil.wordUtil(map, pics,"D:\\tp\\cs\\test.docx","D:\\tp\\cs\\test1.docx");
+//        WordUtil.wordUtil(map, pics,"D:\\tp\\cs\\test.docx","D:\\tp\\cs\\test1.docx");
+
+
+
+
+
+
+
     }
 }
