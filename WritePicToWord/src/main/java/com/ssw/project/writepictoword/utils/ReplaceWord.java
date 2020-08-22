@@ -24,9 +24,28 @@ public class ReplaceWord {
         List<String> list = new ArrayList<>();
         list.add("D:\\tp\\pie.png");
         list.add("D:\\tp\\pie.png");
-        pic.put("${pics}", list);
-        data.put("$1", "1");
-        data.put("$4", "☑");
+        pic.put("${pics}$", list);
+        data.put("$projectName$", "项目名称");
+        data.put("$major$", "专业");
+        data.put("$suoBie$", "所别");
+        data.put("$firstFounded$", "□");
+        data.put("$oneEdition$", "□");
+        data.put("$twoEdition$", "□");
+        data.put("$others$", "☑");
+        data.put("$productionDrawing$", "施工图");
+        data.put("$|BIM|$", "施工图");
+        data.put("$problemDescription$", "问题描述");
+        data.put("$category$", "类别");
+        data.put("$classification$", "分级");
+        data.put("$suggestionReply$", "意见回复");
+        data.put("$problemsOne$", "1");
+        data.put("$problemsTwo$", "2");
+        data.put("$problemsThree$", "3");
+        data.put("$problemsFour$", "4");
+        data.put("$superior$", "☑");
+        data.put("$good$", "□");
+        data.put("$pass$", "□");
+        data.put("$fail$", "□");
 
         // 列表(List)是对象的有序集合
         List<List<String[]>> tabledataList = new ArrayList<>();
@@ -213,26 +232,44 @@ public class ReplaceWord {
             List<XWPFTableCell> cells = row.getTableCells();
             for (XWPFTableCell cell : cells) {
                 // 判断单元格是否需要替换
-                if (checkText(cell.getText())) {
-                    // System.out.println("cell:" + cell.getText());
-                    List<XWPFParagraph> paragraphs = cell.getParagraphs();
-                    for (XWPFParagraph paragraph : paragraphs) {
-                        List<XWPFRun> runs = paragraph.getRuns();
-                        for (XWPFRun run : runs) {
-
-                            Object ob = changeValue(run.toString(), textMap);
-                            if (ob instanceof String) {
-
-                                System.out.println("run:" + "'" + run.toString() + "'");
-                                if (textMap.containsKey(run.toString())) {
-                                    System.out.println("run:" + run.toString() + "替换为" + ob);
-                                    run.setText((String) ob, 0);
-                                } else {
-                                    System.out.println("'" + run.toString() + "'不匹配");
-                                }
-                            }
+                String text = cell.getText();
+                if (checkText(text)) {
+                    System.out.println("cell:" + text);
+                    /**
+                     * 动态替换表格中文本
+                     */
+                    int time = 0;
+                    for (Map.Entry<String, Object> entry : textMap.entrySet()) {
+                        if (text.contains(entry.getKey())) {
+                            time ++;
+                            System.out.println("repalce table's text");
+                            text = text.replace(entry.getKey(), (String)entry.getValue());
                         }
                     }
+                    if (time > 0) {
+                        cell.removeParagraph(0);
+                        cell.addParagraph();
+                        cell.setText(text);
+                    }
+
+//                    List<XWPFParagraph> paragraphs = cell.getParagraphs();
+//                    for (XWPFParagraph paragraph : paragraphs) {
+//                        List<XWPFRun> runs = paragraph.getRuns();
+//                        for (XWPFRun run : runs) {
+
+//                            Object ob = changeValue(run.toString(), textMap);
+//                            if (ob instanceof String) {
+//
+//                                System.out.println("run:" + "'" + run.toString() + "'");
+//                                if (textMap.containsKey(run.toString())) {
+//                                    System.out.println("run:" + run.toString() + "替换为" + ob);
+//                                    run.setText((String) ob, 0);
+//                                } else {
+//                                    System.out.println("'" + run.toString() + "'不匹配");
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
         }
